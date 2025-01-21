@@ -1,16 +1,19 @@
 pipeline {
-    agent {
-        docker { image 'node:16' }  // Use official Node.js Docker image
-    }
+    agent any
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/KgMyatT/node-js-sample.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('Install Node.js and npm') {
             steps {
-                sh 'npm install'  // This will run inside the container with Node.js and npm
+                sh '''
+                # Install Node.js and npm
+                apt-get update
+                apt-get install -y nodejs npm
+                npm install
+                '''
             }
         }
         stage('Test') {
@@ -25,7 +28,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Deployment commands here
+                echo 'Deploying the application...'
             }
         }
     }
