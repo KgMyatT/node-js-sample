@@ -1,19 +1,18 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image '<your-docker-repo>/custom-node:16'
+        }
+    }
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/KgMyatT/node-js-sample.git'
             }
         }
-        stage('Install Node.js and npm') {
+        stage('Install Dependencies') {
             steps {
-                sh '''
-                # Install Node.js and npm
-                apt-get update
-                apt-get install -y nodejs npm
-                npm install
-                '''
+                sh 'npm install'
             }
         }
         stage('Test') {
