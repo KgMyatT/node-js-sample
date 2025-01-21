@@ -1,32 +1,32 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:16' }  // Use official Node.js Docker image
+    }
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/KgMyatT/node-js-sample.git'
+                git 'https://github.com/KgMyatT/node-js-sample.git'
             }
         }
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm install'  // This will run inside the container with Node.js and npm
             }
         }
         stage('Test') {
             steps {
-                sh 'npm test || echo "No tests available"'
+                sh 'npm test'
             }
         }
-        stage('Package') {
+        stage('Build') {
             steps {
-                sh 'tar -czf app.tar.gz *'
+                sh 'npm run build'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                // Add your deployment steps here
+                // Deployment commands here
             }
         }
     }
 }
-
