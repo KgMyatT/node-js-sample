@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/KgMyatT/node-js-sample.git'
+                git branch: 'master', url: 'https://github.com/KgMyatT/node-js-sample.git'
             }
         }
         stage('Build') {
